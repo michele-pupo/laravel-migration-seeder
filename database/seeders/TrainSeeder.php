@@ -5,23 +5,28 @@ namespace Database\Seeders;
 use App\Models\Train;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Faker\Generator as Faker;
 
 class TrainSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public function run(Faker $faker): void
     {
-        $newTrain = new Train();
-        $newTrain->agency = "Trenitalia";
-        $newTrain->departure_station = "Milano";
-        $newTrain->arrival_station = "Lamezia";
-        $newTrain->departure_time = "2024-02-23 20:30:00";
-        $newTrain->arrival_time = "2024-03-24 8:30:00";
-        $newTrain->train_code = 202;
-        $newTrain->n_carriages = 10;
+        for( $i = 0; $i < 10; $i++ ) {
 
-        $newTrain->save();
+            $newTrain = new Train();
+            $newTrain->agency = $faker->sentence(1);
+            $newTrain->departure_station = $faker->city();
+            $newTrain->arrival_station = $faker->city();
+            $newTrain->departure_time = $faker->dateTimeBetween('-1 week', '+1 week');
+            $newTrain->arrival_time = $faker->dateTimeBetween('-1 week', '+1 week');
+            $newTrain->train_code = $faker->randomNumber(4, true);
+            $newTrain->n_carriages = $faker->randomDigit();
+
+            $newTrain->save();
+        }
+        
     }
 }
